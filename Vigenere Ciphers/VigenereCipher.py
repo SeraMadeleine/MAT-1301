@@ -24,10 +24,9 @@ def FindKeyLength(cipher_text, max_keylength):
 def FindKey(cipher_text, keylength): 
     # del inn i blokker så lenge i ikke er større enn nøkkellengden 
     key = []              # Her lagres bokstavene til nøkkelen etterhvert som koden finner de
-    array = []            # Lager et array som skal holde flere mindre arrays med posisjon som svarer til nøkkellengden 
 
     # lager en loop som kjører gjennom hele nøkkellengden 
-    for i in range(key_length): 
+    for i in range(keylength): 
         sub_arr = []      # For å lagre alle verdiene i de mindre arrayene 
         frequency = []     # lager er tmp list for å oppbevare frekvensen av bokstaver i de ulike sub arrayene 
 
@@ -36,10 +35,10 @@ def FindKey(cipher_text, keylength):
 
 
         # Lager subarrays, antallet subarrays bestemmes av nøkkellengden 
-        for j in range((len(cipher_text))//key_length): 
+        for j in range((len(cipher_text))//keylength): 
             tmp = cipher_text[pos]
             sub_arr.append(tmp)
-            pos += key_length   # oppdaterer posisjonen med lengden på nøkkelen 
+            pos += keylength   # oppdaterer posisjonen med lengden på nøkkelen 
 
         # Finner hvor mange ganger hver bokstaver er oppdaget i sub_arrayet 
         # og deler på lengden av sub_arrayet for å finne frekvensen 
@@ -69,12 +68,21 @@ def FindKey(cipher_text, keylength):
 def Decryption(cipher_text, key):
     plain_text = []
     for i in range(len(cipher_text)): 
-        x = (ord(cipher_text[i]) - ord(key[i%5])+26)%26
+        x = (ord(cipher_text[i]) - ord(key[i%key_length])+26)%26
         x += ord('a')
         plain_text.append(chr(x))
     plain_text = "".join(plain_text)
     return plain_text
     
+
+
+
+if __name__ == "__main__": 
+    key_length = FindKeyLength(cng.cipher_text, cng.max_keylength)      # Finne lengden på nøkkelen 
+    key = FindKey(cng.cipher_text, key_length)                          # Finner nøkkelen  
+    plain_text = Decryption(cng.cipher_text, key)                       # Dekrypterer teksten 
+    print("Original/Decrypted Text :",plain_text)
+
 
 
 

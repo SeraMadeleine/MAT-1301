@@ -65,29 +65,22 @@ def FindKey(cipher_text, keylength):
     return key
 
 
-def Decryption(cipher_text, key):
+def Decryption(cipher_text, key, keylength):
     plain_text = []
     for i in range(len(cipher_text)): 
-        x = (ord(cipher_text[i]) - ord(key[i%key_length])+26)%26
+        x = (ord(cipher_text[i]) - ord(key[i%keylength])+26)%26
         x += ord('a')
         plain_text.append(chr(x))
     plain_text = "".join(plain_text)
     return plain_text
     
 
-
-
 if __name__ == "__main__": 
     key_length = FindKeyLength(cng.cipher_text, cng.max_keylength)      # Finne lengden på nøkkelen 
     key = FindKey(cng.cipher_text, key_length)                          # Finner nøkkelen  
-    plain_text = Decryption(cng.cipher_text, key)                       # Dekrypterer teksten 
+    plain_text = Decryption(cng.cipher_text, key, key_length)                       # Dekrypterer teksten 
+    print('nøkkellengde', key_length)
+    print('nøkkel', key)
     print("Original/Decrypted Text :",plain_text)
 
 
-
-
-if __name__ == "__main__": 
-    key_length = FindKeyLength(cng.cipher_text, cng.max_keylength)      # Finne lengden på nøkkelen 
-    key = FindKey(cng.cipher_text, key_length)                          # Finner nøkkelen  
-    plain_text = Decryption(cng.cipher_text, key)                       # Dekrypterer teksten 
-    print("Original/Decrypted Text :",plain_text)
